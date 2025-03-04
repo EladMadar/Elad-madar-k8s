@@ -2,10 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/enable-webhook-validation: "false"
-  name: elad-madar-wordpress-ingress
-  namespace: elad-madar
+    name: elad-madar-wordpress-ingress
+    namespace: elad-madar
 spec:
   ingressClassName: elad-nginx
   rules:
