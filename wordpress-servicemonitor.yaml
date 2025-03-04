@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: wordpress-monitor
+  namespace: eladmadar-monitoring
+  labels:
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+  namespaceSelector:
+    matchNames:
+      - elad-madar
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

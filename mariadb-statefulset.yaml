@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elad-madar-mariadb
+  namespace: elad-madar
+spec:
+  serviceName: "mariadb-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: elad-madar-mariadb
+        image: 992382545251.dkr.ecr.us-east-1.amazonaws.com/elad-madar-mariadb:10.6.4-focal
+        args: ['--default-authentication-plugin=mysql_native_password']
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "somewordpress"
+        - name: MYSQL_DATABASE
+          value: "wordpress"
+        - name: MYSQL_USER
+          value: "wordpress"
+        - name: MYSQL_PASSWORD
+          value: "wordpress"
+        volumeMounts:
+        - name: mariadb-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

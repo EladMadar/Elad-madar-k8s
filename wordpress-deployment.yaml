@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elad-madar-wordpress
+  namespace: elad-madar
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: elad-madar-wordpress
+        image: public.ecr.aws/c0m6s3p2/tomer-k8s-inegrative/wordpress:latest
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: "mariadb-service"
+        - name: WORDPRESS_DB_USER
+          value: "wordpress"
+        - name: WORDPRESS_DB_PASSWORD
+          value: "wordpress"
+        - name: WORDPRESS_DB_NAME
+          value: "wordpress"
+        ports:
+        - containerPort: 80
