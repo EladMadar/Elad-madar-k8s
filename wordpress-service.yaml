@@ -6,6 +6,7 @@ spec:
   selector:
     app: wordpress
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 80
   type: ClusterIP

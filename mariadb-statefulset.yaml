@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: elad-madar-mariadb
-        image: 992382545251.dkr.ecr.us-east-1.amazonaws.com/elad-madar-mariadb:10.6.4-focal
+        image: public.ecr.aws/c0m6s3p2/tomer-k8s-inegrative/db:latest
         args: ['--default-authentication-plugin=mysql_native_password']
         env:
         - name: MYSQL_ROOT_PASSWORD

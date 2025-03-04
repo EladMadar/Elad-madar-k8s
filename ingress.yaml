@@ -1,12 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-webhook-validation: "false"
   name: elad-madar-wordpress-ingress
   namespace: elad-madar
 spec:
-  ingressClassName: elad-madar
+  ingressClassName: elad-nginx
   rules:
-  - host: aee750e7560244a86894ef72f4630b41-1834286964.us-east-1.elb.amazonaws.com
+  - host: a0c9acda7d4f64c4d8e02d2173f335c1-1849343485.us-east-1.elb.amazonaws.com
     http:
       paths:
       - path: /elad
