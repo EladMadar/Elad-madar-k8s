@@ -1,0 +1,66 @@
+# values.yaml
+
+# Common
+namespaceName: "elad-madar"
+
+# MariaDB
+mariadb:
+  nameOverride: "elad-madar-mariadb"
+  image: # "public.ecr.aws/c0m6s3p2/tomer-k8s-inegrative/db:latest" example image, it won't exist in a few days so use your own!
+  replicas: 1
+  serviceName: "mariadb-service"
+  rootPassword: "somewordpress"
+  database: "wordpress"
+  user: "wordpress"
+  userPassword: "wordpress"
+  storageSize: "1Gi"
+
+# WordPress
+wordpress:
+  nameOverride: "elad-madar-wordpress"
+  image: # "public.ecr.aws/c0m6s3p2/tomer-k8s-inegrative/wordpress:latest" use the image you have access to, this one will not exist in a few days.
+  replicas: 2
+  serviceName: "wordpress-service"
+  dbHost: "mariadb-service"
+  dbUser: "wordpress"
+  dbPassword: "wordpress"
+  dbName: "wordpress"
+
+# Ingress
+ingress:
+  enabled: true
+  nameOverride: "elad-madar-wordpress-ingress"
+  ingressClassName: "elad-nginx"        
+  host: # "a0c9acda7d4f64c4d8e02d2173f335c1-1849343485.us-east-1.elb.amazonaws.com" use whatever host name, this one is my own and won't work everywhere!
+  path: "/elad"
+  servicePort: 80
+
+# IngressClass
+ingressClass:
+  enabled: true
+  nameOverride: "elad-madar"
+
+# StorageClass
+storageClass:
+  enabled: true
+  nameOverride: "elad-madar-storageclass"
+  provisioner: "ebs.csi.aws.com"
+  volumeBindingMode: "WaitForFirstConsumer"
+  reclaimPolicy: "Delete"
+  parameters:
+    type: gp3
+    encrypted: "true"
+
+# ServiceMonitor
+serviceMonitor:
+  enabled: true
+  nameOverride: "wordpress-monitor"
+  namespace: "eladmadar-monitoring"
+  matchNamespace: "elad-madar"
+  releaseLabel: "prometheus-stack"
+  # path & port from your existing WordPress container, if it actually exposes /metrics
+  # often WordPress doesn't, so this may not actually scrape anything 
+  endpoints:
+    - port: "http"
+      path: "/metrics"
+      interval: "15s"

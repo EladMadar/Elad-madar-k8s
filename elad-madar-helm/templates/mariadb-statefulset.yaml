@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mariadb.nameOverride }}
+  # I'm letting the user specify the namespace at install time (helm install -n elad-madar ...),
+  # but if you want to use the default namespace, you could do:
+  # namespace: {{ .Values.namespaceName }}
+spec:
+  serviceName: {{ .Values.mariadb.serviceName }}
+  replicas: {{ .Values.mariadb.replicas }}
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: {{ .Values.mariadb.nameOverride }}
+        image: {{ .Values.mariadb.image }}
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: {{ .Values.mariadb.rootPassword | quote }}
+        - name: MYSQL_DATABASE
+          value: {{ .Values.mariadb.database | quote }}
+        - name: MYSQL_USER
+          value: {{ .Values.mariadb.user | quote }}
+        - name: MYSQL_PASSWORD
+          value: {{ .Values.mariadb.userPassword | quote }}
+        volumeMounts:
+        - name: mariadb-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.mariadb.storageSize }}

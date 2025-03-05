@@ -1,0 +1,22 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.serviceMonitor.nameOverride }}
+  namespace: {{ .Values.serviceMonitor.namespace }}   # "eladmadar-monitoring"
+  labels:
+    release: {{ .Values.serviceMonitor.releaseLabel }}
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.serviceMonitor.matchNamespace }}
+  endpoints:
+  {{- range .Values.serviceMonitor.endpoints }}
+    - port: {{ .port }}
+      path: {{ .path }}
+      interval: {{ .interval }}
+  {{- end }}
+{{- end }}
