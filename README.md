@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Project Files](#project-files)
-   1.1 [Install with Helm](#install-with-helm)
+   1. [Install with Helm](#install-with-helm)
 2. [Local Deployment (minikube)](#local-deployment-minikube)
    1. [Prerequisites](#prerequisites)
    2. [Start minikube](#start-minikube)
