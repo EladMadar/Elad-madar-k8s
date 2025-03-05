@@ -2,6 +2,7 @@
 
 ## Table of Contents
 1. [Project Files](#project-files)
+   1.1 [Install with Helm](#install-with-helm)
 2. [Local Deployment (minikube)](#local-deployment-minikube)
    1. [Prerequisites](#prerequisites)
    2. [Start minikube](#start-minikube)
@@ -51,7 +52,19 @@ We have several YAML files that define our Kubernetes resources:
    - An IngressClass object if you want a named class for your Ingress.  
 
 8. **update_kubeconfig.sh** (Optional)  
-   - A script that assumes an IAM role and updates your kubeconfig for a specific EKS cluster.  
+   - A script that assumes an IAM role and updates your kubeconfig for a specific EKS cluster. 
+
+### 1.1 Install with Helm
+- You can install everything in this project using the charts in the `elad-madar-helm` directory:
+
+```sh
+git clone https://github.com/EladMadar/Elad-madar-k8s.git
+cd elad-madar-helm
+
+helm install my-wordpress . \
+  --namespace <namespace-name> \
+  --create-namespace
+  ```
 
 ---
 
