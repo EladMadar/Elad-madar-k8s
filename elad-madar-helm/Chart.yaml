@@ -1,6 +1,6 @@
 apiVersion: v2
-name: elad-madar-wordpress-mariadb-helm
-description: A Helm chart to deploy WordPress + MariaDB on Kubernetes
+name: elad-madar-helm
+description: "A Helm chart to deploy WordPress + MariaDB (plus optional ServiceMonitor)"
 type: application
 version: 0.1.0
 appVersion: "1.0"
