@@ -1,9 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    name: elad-madar-wordpress-ingress
-    namespace: elad-madar
+  name: elad-madar-wordpress-ingress
+  namespace: elad-madar
 spec:
   ingressClassName: elad-nginx
   rules:
